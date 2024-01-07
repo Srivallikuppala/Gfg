@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+usng namespace std;
+{
+int main(){
+int n;
+cin>>n;
+vector<int> A[n];
+for(int i=0;i<n;i++){
+cin>>A[i];
+cout<<findAnswer(n,arr);
+}}
+#define pb as push_back;
+class Solution{
+    public:
+    vector<int> findAnswer(int n, vector<int> &A)
+    {
+        //Write Code Here
+        long long j,c,s;
+        vector<int> r;
+        for (long long i = 0 ; i<n ; i++){
+            j = i;
+            c = 0;
+            s = A[j];
+            if(s>0) r.pb(1);
+            else{
+                while(j<n-1 && s<=0){
+                    j+=1;
+                    s+=A[j];
+                    c+=1;
+                }
+                if(s>0) r.pb(c+1);
+                else r.pb(0);
+            }
+        }
+        return r;
+    }
