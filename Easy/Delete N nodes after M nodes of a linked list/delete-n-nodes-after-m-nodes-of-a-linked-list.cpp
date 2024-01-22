@@ -81,37 +81,27 @@ class Solution
     {
         //Add code here  
         Node* temp = head;
-        int c = 1 , c1 = 0 ;
-        while(head->next!=NULL){
-            if(c==m){
-                Node* prev = head;
-                c = 0;
-                while(c1!=n and c1!=n+1){
-                    if(head->next->next!=NULL){   
-                        head = head->next;
-                    }
-                    else{
-                        c1 = n;
-                    }
-                    c1+=1;
-            
+        Node* prev = NULL;
+        int c = m-1 , c1 = n ;
+        while(temp!=NULL){
+            if(c==0 and temp!=NULL){
+                prev = temp;
+                c = m;
+                while(c1!=0 && temp!=NULL && temp->next!=NULL){
+                    if(head!=NULL) temp = temp->next;
+                    c1-=1;
                 }
-                if(c1==n) prev->next = head->next;
-                else if(c1==n+1) {
-                    prev->next = NULL;
-                    break;
-                }
-                c1 = 0;
-                
+                c1 = n;
+                prev->next = temp->next;
             }
-            c+=1;
-            head = head->next;
-        }
-        // while(temp!=NULL){
-        //     cout<<temp->data;
-        //     temp = temp->next;
-        // }
+            if(temp!=NULL) temp = temp->next;
+            else break;
+            c-=1;
+            
+            
+            
         
+        }
     }
 };
 
