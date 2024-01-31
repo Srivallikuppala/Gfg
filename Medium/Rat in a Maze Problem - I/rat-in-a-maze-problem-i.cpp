@@ -11,28 +11,16 @@ using namespace std;
 class Solution{
     public:
     void path(int i , int  j , int a , string r , vector<string>&arr , vector<vector<int>>m , vector<vector<int>>&visit){
+        if(i>a or j>a or i<0 or j<0 or visit[i][j]!=-1 or m[i][j]==0) return;
         if(i==a and j==a){
             arr.push_back(r);
             return;
         }
         visit[i][j]=1;
-        if(i<a and m[i+1][j]==1 and visit[i+1][j]==-1){
-                //visit[i+1][j]=1;
-                path(i+1,j,a,r+'D',arr,m,visit);
-            }
-        
-        if(j<a and m[i][j+1]==1 and visit[i][j+1]==-1){
-            //visit[i][j+1]=1;
-            path(i,j+1,a,r+'R',arr,m,visit);
-            }
-        if(i>0 and m[i-1][j]==1 and visit[i-1][j]==-1){
-           // visit[i-1][j]=1;
-            path(i-1,j,a,r+'U',arr,m,visit);
-        }
-        if(j>0 and m[i][j-1]==1 and visit[i][j-1]==-1){
-            //visit[i][j-1]=1;
-            path(i,j-1,a,r+'L',arr,m,visit);
-        }
+        path(i+1,j,a,r+'D',arr,m,visit);
+        path(i,j+1,a,r+'R',arr,m,visit);
+        path(i-1,j,a,r+'U',arr,m,visit);
+        path(i,j-1,a,r+'L',arr,m,visit);
         visit[i][j]=-1;
         return;
     }
