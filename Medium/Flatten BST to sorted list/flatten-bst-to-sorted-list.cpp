@@ -124,48 +124,24 @@ public:
 class Solution
 {
 public:
+    
+    Node *head = newNode(NULL);
+    Node *h1 = head;
+    void inorder(Node *root){
+        if(root==NULL) return;
+        inorder(root->left);
+        Node* head1 = newNode(root->data);
+        head->right = head1;
+        head = head->right;
+        inorder(root->right);
+        return;
+    }
     Node *flattenBST(Node *root)
     {
         // code here
-        Node* head = newNode(NULL);
-        Node* head1 = head;
-        Node* curr = root;
-        while(curr){
-            if(curr->left==NULL){
-                //cout<<10;
-                Node* x = curr;
-                if(x->data!=-1){head->right = x;
-                    head = head->right;}
-                curr = curr->right;
-            }
-            else{
-                Node* prev = curr->left;
-                while(prev->right!=NULL and prev->right!=curr){
-                    //cout<<9;
-                    prev = prev->right;
-                }
-                if(prev->right==NULL){
-                    //cout<<8;
-                    prev->right = curr;
-                    curr = curr->left;
-                }
-                else{
-                   // cout<<7;
-                    prev->right = NULL;
-                    Node* x = curr;
-                    if(x->data!=-1){head->right = x;
-                    head = head->right;}
-                    curr = curr->right;
-                }
-            }
-        }
-        
-        head1 = head1->right;
-        while(head1){
-            cout<<head1->data<<" ";
-            head1 = head1->right;
-        }
-        return head1;
+        inorder(root);
+        Node* h2 = h1->right;
+        return h2;
     }
 };
 
