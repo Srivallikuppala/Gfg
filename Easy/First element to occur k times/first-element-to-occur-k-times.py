@@ -4,14 +4,17 @@
 class Solution:
     def firstElementKTime(self, n, k, a):
         # code here
-        m = {}
+        d = {}
         for i in a:
-            if i not in m:
-                m[i] = 1
+            if i not in d:
+                d[i] = 1
             else:
-                m[i]+=1
-            if m[i]==k:return i
+                d[i] += 1
+                if d[i] == k:
+                    return i
         return -1
+        
+    
 
 
 
