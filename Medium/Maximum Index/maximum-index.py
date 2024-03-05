@@ -5,19 +5,23 @@ class Solution:
     # Function to find the maximum index difference.
     def maxIndexDiff(self,a, n): 
         ##Your code here
-        i = 0
-        j = n-1
-        x = 0
-        c = 0
-        for i in range(0,n-1):
-            j = n-1
-            while i<j:
-                #print(i,j)
-                if a[i]<=a[j]:
-                    x = max(x,j-i)
-                    if x>=n-2-i:return x
-                j-=1
-        return x
+        x = []
+        y = []
+        x.append(a[0])
+        y.append(a[-1])
+        for i in range(1,n):x.append(min(x[i-1],a[i]))
+        for j in range(n-2,-1,-1):y.append(max(a[j],abs(y[n-j-2])))
+        y = y[::-1]
+      #  print(x,y)
+        i = j = maxi = 0
+        while i<n and j<n:
+            if(x[i]<=y[j]):j+=1
+            else:
+                maxi =max(maxi,j-i-1)
+                i+=1
+        maxi = max(maxi,j-i-1)
+        #print(maxi)
+        return maxi
 
 #{ 
  # Driver Code Starts
