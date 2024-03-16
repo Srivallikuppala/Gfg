@@ -82,20 +82,15 @@ class Solution
     void deleteNode(Node *del)
     {
        // Your code here
-        Node* prev = NULL;
-        while(del->next!=NULL){
-            prev = del;
-           del->data = del->next->data;
-           del = del->next;
-           
-        }
-        prev->next = NULL;
+        del->data = del->next->data;
+        del->next = del->next->next;
        
       
        
     }
 
 };
+
 
 
 //{ Driver Code Starts.
