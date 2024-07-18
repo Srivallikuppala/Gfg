@@ -93,21 +93,22 @@ struct Node
 
 class Solution {
   public:
-    int height(int &res, Node* root, int l, int r){
+  int res= 0;
+    int height(Node* root){
         if(root==NULL) return 0;
-        l= height(res, root->left, l, r);
-        r= height(res, root->right, l, r);
+        int l= height(root->left);
+        int r= height(root->right);
         res= max(res, l+r+1);
         return max(l,r)+1;
     }
     // Function to return the diameter of a Binary Tree.
     int diameter(Node* root) {
         // Your code here
-        int res= 0;
-        height(res, root, 0, 0);
+        height(root);
         return res;
     }
 };
+
 
 //{ Driver Code Starts.
 
