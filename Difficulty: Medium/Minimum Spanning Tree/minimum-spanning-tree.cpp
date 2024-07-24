@@ -3,49 +3,131 @@
 using namespace std;
 
 // } Driver Code Ends
+
+class DisjointSet{
+    vector<int>rank,parent;
+public:
+    DisjointSet(int n){
+        rank.resize(n+1,0);
+        parent.resize(n+1);
+        
+        for(int i=0;i<=n;i++)parent[i]=i;
+    }
+    
+    int findUltimateParent(int node){
+        if(node==parent[node])return node;
+        return parent[node]=findUltimateParent(parent[node]);
+    }
+    
+    void unionByRank(int node1,int node2){
+        int parent1=findUltimateParent(node1);
+        int parent2=findUltimateParent(node2);
+        
+        if(parent1==parent2)return;
+        else if(rank[parent1]<rank[parent2]){
+            parent[parent1]=parent2;
+        }
+        else if(rank[parent2]<rank[parent1]){
+            parent[parent2]=parent1;
+        }
+        else if(rank[parent1]==rank[parent2]){
+            parent[parent2]=parent1;
+            rank[parent1]++;
+        }
+    }
+    
+};
+ 
 class Solution
 {
-	public:
-	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+public:
+//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        // priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        // pq.push({0,0});
-        // int sum= 0;
-        // vector<int> vis(V,0);
-        // while(!pq.empty()){
-        //     pair<int, int> pr= pq.top();
-        //     pq.pop();
-        //     if(vis[pr.second]==1)  continue;
-        //     sum+=pr.first; vis[pr.second]=1;
-        //     for(auto it: adj[pr.second]){
-        //         if(vis[it[0]]==0){
-        //             pq.push({it[1],it[0]});
-        //         }
-        //     }
-        // }
-        // return sum;
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        int vis[V] = {0};
-        int sum = 0;
-        pq.push({0,0});
-        while(!pq.empty()){
-            auto it = pq.top();
-            pq.pop();
-            int node = it.second;
-            int wt = it.first;
-            if(vis[node]) continue;
-            vis[node] = 1;
-            sum += wt;
-            for(auto it : adj[node]){
-                int adjnode = it[0];
-                if(!vis[adjnode]) pq.push({it[1],adjnode});
-            }
-            
-        }
-        return sum;
+       vector<pair<int,pair<int,int>>>edges;
+       
+      for(int i=0;i<V;i++){
+       for(auto j:adj[i]){
+           int adjNode=j[0];
+           int adjWeight=j[1];
+           int currentNode=i;
+           
+           edges.push_back({adjWeight,{currentNode,adjNode}});
+       }
+      }
+       
+       sort(edges.begin(),edges.end());
+       int ans=0;
+       DisjointSet d(V);
+       
+       for(auto &i:edges){
+           int weight=i.first;
+           int node1=i.second.first;
+           int node2=i.second.second;
+           
+           if(d.findUltimateParent(node1)!=d.findUltimateParent(node2)){
+               ans+=weight;
+               d.unionByRank(node1,node2);
+           }
+       }
+       return ans;
     }
 };
+// class Solution
+// {
+//     vector<int> rank;
+//     vector<int> parent;
+//     public:
+//     void disjoint_set(int V){
+//         rank.resize(V+1,0);
+// 	    parent.resize(V+1,0);
+// 	    for(int i= 0; i<= V; i++) parent[i]= i;
+//     }
+//     int find_root(int n){
+// 	    if(parent[n]==n) return n;
+// 	    return parent[n]= find_root(parent[n]);
+// 	}
+//     void union_find(int a, int b){
+// 	    int x= find_root(a);
+// 	    int y= find_root(b);
+// 	    if(rank[x]==rank[y]){
+// 	        parent[x]= y;
+// 	        rank[y]++;
+// 	    }
+// 	    else if(rank[x]>rank[y]){
+// 	        parent[y]= x;
+// 	    }
+// 	    else{
+// 	        parent[x]= y;
+// 	    }
+	    
+// 	}
+//     int spanningTree(int V, vector<vector<int>> adj[])
+//     {
+//         // code here
+//         disjoint_set(V);
+//         vector<pair<int,pair<int,int>>> edges;
+//         // priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>> edges;
+//         for (int i = 0; i < V; i++) {
+//             for (auto it : adj[i]) {
+//                 edges.push_back({it[1], {it[0], i}});
+//             }
+//         }
+//         int sum= 0;
+//         sort(edges.begin(),edges.end());
+//         for(auto it: edges){
+//             // auto it= edges.top();
+//             // edges.pop();
+//             if(find_root(it.second.second)!=find_root(it.second.first)){
+//                 sum+=it.first;
+//                 union_find(it.second.second,it.second.first);
+//             }
+//         }
+//         return sum;
+        
+//     }
+// };
+
 
 //{ Driver Code Starts.
 
